@@ -5,24 +5,38 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-  
-    bool detectCycle(int vis[], vector<int>adj[],int node){
+    //BFS
+    // bool detectCycleBFS(int vis[], vector<int>adj[],int node){
+    //     vis[node]=1;
+    //     queue<pair<int,int>>q;
+    //     q.push({node,-1});
+    //     while(!q.empty()){
+    //         int child=q.front().first;
+    //         int parent=q.front().second;
+    //         q.pop();
+    //         for(auto it:adj[child]){
+    //             if(!vis[it]){
+    //                 q.push({it,child});
+    //                 vis[it]=1;
+    //             }
+    //             else if(it!=parent){
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+    
+    //DFS
+    bool detectCycleDFS(int vis[], vector<int>adj[], int node, int parent){
         vis[node]=1;
-        queue<pair<int,int>>q;
-        q.push({node,-1});
-        while(!q.empty()){
-            int child=q.front().first;
-            int parent=q.front().second;
-            q.pop();
-            for(auto it:adj[child]){
-                if(!vis[it]){
-                    q.push({it,child});
-                    vis[it]=1;
-                }
-                else if(it!=parent){
+        for(auto it: adj[node]){
+            if(!vis[it]){
+                if(detectCycleDFS(vis,adj,it,node))
                     return true;
-                }
             }
+            else if(it!=parent)
+                return true;
         }
         return false;
     }
@@ -32,7 +46,7 @@ class Solution {
         int vis[V]={0};
         for(int i=0;i<V;i++){
             if(!vis[i]){
-                if(detectCycle(vis,adj,i))
+                if(detectCycleDFS(vis,adj,i,-1))
                     return true;
             }
         }
