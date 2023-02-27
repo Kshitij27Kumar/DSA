@@ -13,43 +13,43 @@ class Solution
         // Code here
         // vector<int>dis(V,INT_MAX);
         // dis[S]=0;
-        // priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+        // priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
         // pq.push({S,0});
-        // while(!pq.empty())
-        // {
+        // while(!pq.empty()){
         //     pair<int,int>p=pq.top();
         //     int node=p.first;
         //     pq.pop();
-        //     for(vector<int>n:adj[node])
-        //     {
-        //         int next=n[0];
-        //         int weight=n[1];
-        //         if(dis[node]+weight<dis[next])
-        //         {
-        //             dis[next]=dis[node]+weight;
-        //             pq.push({next,dis[next]});
+        //     for(vector<int>n:adj[node]){
+        //         int adjacent=n[0];
+        //         int wt=n[1];
+        //         if(dis[node]+wt<dis[adjacent]){
+        //             dis[adjacent]=dis[node]+wt;
+        //             pq.push({adjacent,dis[adjacent]});
         //         }
         //     }
         // }
         // return dis;
-        vector<int>dis(V,INT_MAX);
-        dis[S]=0;
-        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
-        pq.push({S,0});
-        while(!pq.empty()){
-            pair<int,int>p=pq.top();
-            int node=p.first;
-            pq.pop();
-            for(vector<int>n:adj[node]){
-                int adjacent=n[0];
-                int wt=n[1];
-                if(dis[node]+wt<dis[adjacent]){
-                    dis[adjacent]=dis[node]+wt;
-                    pq.push({adjacent,dis[adjacent]});
+        set<pair<int,int>>s;
+        vector<int>dist(V,INT_MAX);
+        dist[S]=0;
+        s.insert({S,0});
+        while(!s.empty()){
+            auto it=*(s.begin());
+            int node=it.first;
+            int wt=it.second;
+            s.erase(it);
+            for(auto it: adj[node]){
+                int adjNode=it[0];
+                int edgeWt=it[1];
+                if(wt+edgeWt<dist[adjNode]){
+                    if(dist[adjNode]!=INT_MAX)
+                        s.erase({adjNode,dist[adjNode]});
+                    dist[adjNode]=wt+edgeWt;
+                    s.insert({adjNode, dist[adjNode]});
                 }
             }
         }
-        return dis;
+        return dist;
     }
 };
 
