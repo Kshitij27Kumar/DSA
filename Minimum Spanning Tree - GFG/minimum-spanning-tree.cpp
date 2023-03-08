@@ -25,10 +25,10 @@ class Solution
 	    int uPar=findParent(u);
 	    int vPar=findParent(v);
 	    if(uPar==vPar)  return;
-	    if(uPar<vPar){
+	    if(rank[uPar]<rank[vPar]){
 	        parent[uPar]=vPar;
 	    }
-	    else if(uPar>vPar){
+	    else if(rank[uPar]>rank[vPar]){
 	        parent[vPar]=uPar;
 	    }
 	    else{
@@ -52,6 +52,7 @@ class Solution
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
+        //Kruskal's Algorithm
         vector<pair<int,pair<int,int>>>edges;
         for(int i=0;i<V;i++){
             for(auto it:adj[i]){
