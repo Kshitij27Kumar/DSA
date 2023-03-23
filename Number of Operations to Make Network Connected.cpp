@@ -47,11 +47,11 @@ class Solution {
 public:
     int makeConnected(int n, vector<vector<int>>& connections) {
         DisjointSet ds(n);
-        int countEdges=0;
+        int extraEdges=0;
         for(auto it:connections){
             int u=it[0], v=it[1];
             if(ds.findParent(u)==ds.findParent(v))
-                countEdges++;
+                extraEdges++;
             else
                 ds.unionBySize(u,v);
         }
@@ -62,7 +62,7 @@ public:
                 numberComponents++;
         }
         int ans=numberComponents-1;
-        if(countEdges>=ans)
+        if(extraEdges>=ans)
             return ans;
         return -1;
     }
